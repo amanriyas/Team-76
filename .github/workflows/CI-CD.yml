@@ -1,0 +1,39 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci-checks:
+    name: Code Integration Checks
+    runs-on: ubuntu-latest
+    env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}   
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2  
+        
+      - name: Start Docker Containers
+        run: |
+          docker compose up --build -d
+          sleep 10
+          docker ps
+
+      - name: Check Logs for Issues
+        run: |
+          docker compose logs --tail=50
+
+      - name: Stop Containers After Check
+        run: docker compose down

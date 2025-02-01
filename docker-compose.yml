@@ -1,0 +1,45 @@
+
+services:
+
+  db:
+    image: postgres:16
+    container_name: postgres_database
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  
+
+  backend:
+    build: .
+    container_name: backend
+    restart: always  
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db  
+    environment:
+         DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+         DJANGO_SECRET_KEY: ${SECRET_KEY}
+         DEBUG: "True"  
+    volumes:
+      - .:/app/backend
+    
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    container_name: frontend  
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/job_board:/app/frontend/
+      - /app/frontend/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
