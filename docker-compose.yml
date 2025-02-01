@@ -3,7 +3,7 @@ services:
 
   db:
     image: postgres:16
-    container_name: postgres_database
+    container_name: postgres_container
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -20,7 +20,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db  
+      - db 
     environment:
          DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
          DJANGO_SECRET_KEY: ${SECRET_KEY}
