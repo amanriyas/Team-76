@@ -43,11 +43,11 @@ To stop and remove all containers, networks, and volumes created by `docker-comp
 ```bash
 docker compose down
 ```
-### Please
+### Please Note
 Every time you make changes in the application, please re-run run:
 ```bash
 docker compose build
 
 docker compose up 
 ```
-respectively in order to reflect the changes.
+in order to reflect the changes.
