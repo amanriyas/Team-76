@@ -31,14 +31,6 @@ jobs:
           sleep 10
           docker ps
 
-      - name: Wait for PostgreSQL
-        run: |
-         echo "Waiting for PostgreSQL..."
-         until docker exec $(docker ps -qf "name=postgres_container") pg_isready -U postgres; do
-         sleep 3
-         done
-         echo "PostgreSQL is ready!"    
-
       - name: Check Logs for Issues
         run: |
           docker compose logs --tail=50
