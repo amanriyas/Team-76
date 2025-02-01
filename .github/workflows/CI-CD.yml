@@ -28,16 +28,8 @@ jobs:
       - name: Start Docker Containers
         run: |
           docker compose up --build -d
-          sleep 10
+          sleep 20
           docker ps
-      
-      - name: Wait for PostgreSQL to be Ready
-        run: |
-          echo "Waiting for PostgreSQL..."
-          until docker exec postgres_database pg_isready -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }}; do
-            sleep 5
-          done
-          echo "PostgreSQL is ready!"    
 
       - name: Check Logs for Issues
         run: |
