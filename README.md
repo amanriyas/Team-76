@@ -48,7 +48,7 @@ Every time you make changes in the application, please re-run run:
 ```bash
 docker compose build
 
-docker compose up 
+docker compose up -d
 ```
 in order to reflect the changes.
 
