@@ -30,7 +30,7 @@ docker compose build
 ### Running the Application
 To start the application, run the following command:
 ```bash
-docker compose up
+docker compose up -d
 ```
 
 This will start the application and make it accessible at `http://localhost:5173`.
