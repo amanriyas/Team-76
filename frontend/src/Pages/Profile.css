@@ -1,0 +1,177 @@
+.green-container {
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 10px;
+    padding: 20px;
+    height: 700px;
+    width: 800px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 100px;
+    margin-bottom: 30px;
+    margin-top: 250px;
+}
+
+.profile-container {
+    margin-left: 250px;
+    margin-top: 80px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    
+}
+
+.profile-picture {
+    margin-bottom: 25px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 350px;
+}
+
+.profile-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-actions {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+    max-width: 400px;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-button, .sign-out-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 170px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.green-button {
+    background-color: #28a745;
+}
+
+.green-button:hover {
+    background-color: #218838;
+}
+
+.sign-out-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.sign-out-button:hover {
+    background-color: #c82333;
+}
+
+.profile-icons {
+    margin-top: 30px;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+}
+
+.profile-icons .icon {
+    font-size: 26px;
+    color: #007bff;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.profile-icons .icon:hover {
+    color: #0056b3;
+    transform: scale(1.1);
+}
+
+.friends-container, .block-container {
+    margin-left: 250px;
+    margin-top: 80px;
+    padding: 30px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: calc(100% - 250px);
+}
+
+.scrollable-container {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+}
+
+.friend-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.friend-name {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.friend-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.remove-button, .block-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+.remove-button {
+    background-color: #ff0000bc;
+    color: black;
+}
+
+.remove-button:hover {
+    background-color: #ff0000bc;
+}
+
+.block-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.block-button:hover {
+    background-color: #c82333;
+}

@@ -1,45 +1,95 @@
-name: CI/CD Pipeline
+name: Deploy to Azure VM
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - main      # For production deployment
+      - develop   # For development deployment
 
 jobs:
-  ci-checks:
-    name: Code Integration Checks
-    runs-on: ubuntu-latest
-    env:
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        DB_PORT: ${{ secrets.DB_PORT }}
-        DB_HOST: ${{ secrets.DB_HOST }} 
-        SERVER_PORT: ${{ secrets.SERVER_PORT }}
-        POSTGRES_USER: ${{ secrets.DB_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        POSTGRES_DB: ${{ secrets.DB_NAME }}
+  build-and-push:
+    name: Build and Push Docker Images
+    runs-on: self-hosted  # Uses your self-hosted runner
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2  
-        
-      - name: Start Docker Containers
+      - name: Fix workspace permissions
         run: |
-          docker compose up --build -d
-          sleep 10
-          docker ps
+          sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work
+          sudo chmod -R 755 /home/ubuntu/actions-runner/_work
 
-      - name: Check Logs for Issues
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and Push Docker Images
         run: |
-          docker compose logs --tail=50
+          # Extract repository name
+          REPO_NAME=$(echo "${{ github.repository }}" | awk -F '/' '{print $2}')
 
-      - name: Stop Containers After Check
-        run: docker compose down
+          # Build and push all services defined in the appropriate docker-compose.yml
+          docker compose -f docker-compose.${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}.yml build
+          docker compose -f docker-compose.${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}.yml push
+
+  deploy:
+    name: Deploy to Azure VM
+    runs-on: self-hosted  # Uses your self-hosted runner
+    needs: build-and-push  # Ensures deployment happens after build & push
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}  # Set environment dynamically based on the branch
+
+    steps:
+      - name: Setup SSH Key
+        run: |
+          echo "${{ secrets.RSA_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: SSH into Azure VM and Deploy
+        run: |
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_IP }} << 'EOF'
+            # Change directory to project
+            cd /home/ubuntu/actions-runner/_work/team76/team76
+
+            # Copy the correct .env file based on environment
+            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+              cp /home/ubuntu/env_files/.env.production .env
+            else
+              cp /home/ubuntu/env_files/.env.development .env
+            fi
+
+            echo ".env file copied successfully"
+
+            # Log in to GHCR
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # Pull latest images from the correct Docker Compose file
+            docker compose -f docker-compose.${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}.yml pull
+
+            # Conditionally stop and remove containers based on the environment
+            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+              # Stop and remove only production containers
+              docker compose -f docker-compose.production.yml down --remove-orphans
+              echo "Production containers stopped and removed"
+            else
+              # Stop and remove only development containers
+              docker compose -f docker-compose.development.yml down --remove-orphans
+              echo "Development containers stopped and removed"
+            fi
+
+            # Start new containers based on the environment
+            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+              # Start new production containers
+              docker compose -f docker-compose.production.yml up --build -d
+              echo "Started new production containers"
+            else
+              # Start new development containers
+              docker compose -f docker-compose.development.yml up --build -d
+              echo "Started new development containers"
+            fi
+
+            # Cleanup unused images
+            docker system prune -af
+          EOF
+
+      - name: Clean Up SSH Key
+        run: rm -f private_key.pem

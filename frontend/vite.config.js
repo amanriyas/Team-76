@@ -1,16 +1,23 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import path from "path"; // Import 'path' module
 
-// https://vite.dev/config/
 export default defineConfig({
   server: {
-    host: '0.0.0.0', // Expose to all network interfaces
-    port: 5173,       // Default port, you can change it if needed
-    strictPort: true, // Ensure the server only uses this port
+    host: "0.0.0.0",
+    port: 5173,
+    strictPort: true,
+    allowedHosts: [
+      "team76.bham.team",
+      "team76.dev.bham.team",
+      "studyo.bham.team",
+    ],
   },
-  plugins: [
-    react(),
-    tailwindcss()
-  ],
-})
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"), // Define @/ alias
+    },
+  },
+  plugins: [react(), tailwindcss()],
+});

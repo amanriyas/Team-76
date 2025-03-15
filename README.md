@@ -1,5 +1,13 @@
 # Team-76
-Team 76 Project Repository
+Team Members:
+1. Aman Abdul Salam A Riyas aar350@student.bham.ac.uk
+2. Heng Cheng hxc313@student.bham.ac.uk
+3. Nada alsawad nxa217@student.bham.ac.uk
+4. Alagappan Alagappan axa2254@student.bham.ac.uk
+5. Fatima Arab fsa257@student.bham.ac.uk
+6. Abdulmonem Altarawneh axa2265@student.bham.ac.uk 
+7. Yazan Dabaan yxd252@student.bham.ac.uk
+
 ## Getting Started
 
 ### Prerequisites
@@ -11,26 +19,21 @@ Make sure you have the following installed on your machine:
 ### Cloning the Repository
 To clone the repository, run the following command:
 ```bash
-git clone https://github.com/amanriyas/Team-76.git
-cd Team-76
-```
 
-### Setting Up Environment Variables
-Copy the example environment file to create your `.env` file:
-```bash
-cp .env.example .env
+git clone https://github.com/uob-team-project/team76.git
+cd team76
 ```
 
 ### Installing Dependencies
-To download the necessary dependencies, run the following command to build the docker images:
+To download the necessary dependencies, run the following command to build the docker images for development:
 ```bash
-docker compose build
+docker compose -f docker-compose.development.yml build
 ```
 
 ### Running the Application
-To start the application, run the following command:
+To start the application in development, run the following command:
 ```bash
-docker compose up -d
+docker compose -f docker-compose.development.yml up -d
 ```
 
 This will start the application and make it accessible at `http://localhost:5173`.
@@ -39,19 +42,17 @@ This will start the application and make it accessible at `http://localhost:5173
 To stop the application, press `Ctrl+C` in the terminal where the application is running.
 
 ### Additional Commands
-To stop and remove all containers, networks, and volumes created by `docker-compose up`, run:
+To stop and remove all containers, networks, and volumes created by `docker compose -f docker-compose.development.yml build`, run:
 ```bash
-docker compose down
+docker compose -f docker-compose.development.yml down
 ```
 ### Please Note
 Every time you make changes in the application, please re-run run:
 ```bash
-docker compose build
+docker compose -f docker-compose.development.yml build
 
-docker compose up -d
+docker compose -f docker-compose.development.yml up -d
 ```
 in order to reflect the changes.
 
 
-
-# Adding a new comment for testing git commit

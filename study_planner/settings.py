@@ -31,12 +31,22 @@ SECRET_KEY = 'django-insecure-)os(0o59p4&(k%1hn%75z&m(@!+2o7r6vmbg_!dzgxgl1@7bbp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'team76.bham.team',
+    'team76.dev.bham.team',
+    'studyo.bham.team',
+    'localhost',
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5173',  # Vite's dev server
+CORS_ALLOWED_ORIGINS = [ # Vite's dev server
+    'https://team76.bham.team',
+    'https://team76.dev.bham.team',
+    'https://studyo.bham.team',
+
 ]
 
 
