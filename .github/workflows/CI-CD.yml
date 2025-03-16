@@ -89,6 +89,5 @@ jobs:
             docker system prune -af
           EOF
 
-
       - name: Clean Up SSH Key
         run: rm -f private_key.pem
