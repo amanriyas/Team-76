@@ -48,7 +48,7 @@ jobs:
         run: |
           ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_IP }} << 'EOF'
             # Change directory to project
-            cd /home/ubuntu/actions-runner/_work/team76/team76
+            cd /home/ubuntu/actions-runner/_work/Team-76/Team-76
 
             # Copy the correct .env file based on environment
             if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
