@@ -107,3 +107,5 @@ class Discussion(models.Model):
 
     def _str_(self):
         return f"Discussion by {self.author.first_name}"
+    
+    
