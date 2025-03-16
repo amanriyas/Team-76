@@ -50,7 +50,6 @@ jobs:
             # Change directory to project
             cd /home/ubuntu/actions-runner/_work/Team-76/Team-76
 
-
             # Copy both .env and .env.development into the directory
             cp /home/ubuntu/env_files/.env .env
             cp /home/ubuntu/env_files/.env.development .env.development
