@@ -52,7 +52,7 @@ jobs:
 
             # Copy the correct .env file based on environment
             if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-              cp /home/ubuntu/env_files/.env.production .env
+              cp /home/ubuntu/env_files/.env .env
             else
               cp /home/ubuntu/env_files/.env.development .env
             fi
