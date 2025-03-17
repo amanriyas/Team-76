@@ -5,8 +5,8 @@ services:
     image: postgres:16
     container_name: postgres_container_dev
     restart: always
-    # env_file:
-    #  - .env.development 
+    env_file:
+     - .env.development 
     environment:
       POSTGRES_USER: team_project_dev
       POSTGRES_PASSWORD: team_project_dev
@@ -27,8 +27,8 @@ services:
     build: .
     container_name: backend_dev
     restart: always  
-    # env_file:
-    # - .env.development 
+    env_file:
+    - .env.development 
     depends_on:
       db_dev:
         condition: service_healthy   
