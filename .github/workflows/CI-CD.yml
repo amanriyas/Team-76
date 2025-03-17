@@ -33,6 +33,7 @@ jobs:
             echo "environment=development" >> $GITHUB_ENV
           fi
 
+
       - name: Build and Push Docker Images
         run: |
           docker compose -f docker-compose.${{ env.environment }}.yml build
