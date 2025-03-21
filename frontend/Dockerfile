@@ -15,4 +15,4 @@ ENV HOST=0.0.0.0
 
 EXPOSE 5173
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

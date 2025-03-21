@@ -1,24 +1,21 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import './App.css';
-import Login from "./Pages/Login";
-import SignUpPage from "./Pages/Registration";
-import LeaderboardPage from "./Pages/LeaderboardPage";
-import WellnessPage from "./Pages/WellnessPage";
-import StudyRoom from "./Pages/StudyRoom";
-import StudyChatbox from "./Pages/StudyChatbox"; 
-import Calendar from "./Pages/CalendarPage"
-import Timer from "./Pages/Timer"
-import Flashcardspage from "./Pages/Flashcardspage";
-import DashboardPage from "./Pages/DashboardPage";
-import ProfilePage from "./Pages/ProfilePage";
-import Registration from "./Pages/Registration";
-import ModulePage from "./components/ModulePage"
-import { UserProvider } from './components/UserContext'; 
-import FriendsListPage from './Pages/FriendsListPage';
-import BlockListPage from './Pages/BlockListPage';
-
-import { ThemeProvider } from './components/ThemeProvider'; 
-
+import Login from "./pages/Login";
+import SignUpPage from "./pages/Registration";
+import LeaderboardPage from "./pages/LeaderboardPage";
+import WellnessPage from "./pages/WellnessPage";
+import StudyRoom from "./pages/StudyRoom";
+import StudyChatbox from "./pages/StudyChatbox";
+import Calendar from "./pages/CalendarPage";
+import Timer from "./pages/Timer";
+import Flashcardspage from "./pages/Flashcardspage";
+import DashboardPage from "./pages/DashboardPage";
+import ProfilePage from "./pages/ProfilePage";
+import ModulePage from "./components/ModulePage";
+import { UserProvider } from './components/UserContext';
+import FriendsListPage from './pages/FriendsListPage';
+import BlockListPage from './pages/BlockListPage';
+import { ThemeProvider } from './components/ThemeProvider';
 
 function App() {
   return (
@@ -44,9 +41,6 @@ function App() {
         <Route path="/friends" element={<FriendsListPage />} />
         <Route path="/block" element={<BlockListPage />} />
         <Route path="/registration" element={<Registration />}/>
-
-        
-
       </Routes>
           </UserProvider>
     </ThemeProvider>
@@ -56,4 +50,3 @@ function App() {
 }
 
 export default App;
-

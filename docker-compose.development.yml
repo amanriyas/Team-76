@@ -1,12 +1,8 @@
 services:
-
-  
   db_dev:
     image: postgres:16
     container_name: postgres_container_dev
     restart: always
-    env_file:
-     - .env.development 
     environment:
       POSTGRES_USER: team_project_dev
       POSTGRES_PASSWORD: team_project_dev
@@ -15,32 +11,33 @@ services:
       - postgres_data_dev:/var/lib/postgresql/data
     ports:
       - "5433:5432"
-      
+    env_file:
+     - .env.development  
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U team_project_dev -d study_planner_dev"]
       interval: 5s
       timeout: 5s
       retries: 5
-  
 
   backend_dev:
     build: .
     container_name: backend_dev
     restart: always  
-    env_file:
-    - .env.development 
     depends_on:
       db_dev:
         condition: service_healthy   
     environment:
       DATABASE_URL: postgres://team_project_dev:team_project_dev@db_dev:5432/study_planner_dev
       DJANGO_SECRET_KEY: ${SECRET_KEY}
-      DEBUG: "True"  
+      DEBUG: "False"  
+      ENVIRONMENT: development
 
     volumes:
       - .:/app
     ports:
     - "8002:8000" 
+    env_file:
+     - .env.development  
     command: >
       sh -c "python wait_for_db.py &&
              python manage.py makemigrations &&
